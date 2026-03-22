@@ -1,0 +1,163 @@
+{
+  "info": {
+    "_postman_id": "notification-api-collection",
+    "name": "notification-api",
+    "description": "Collection para testar notification-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/actuator/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "actuator", "health"]
+        }
+      }
+    },
+    {
+      "name": "Send Notification - Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-Key",
+            "value": "sk_test_123456789"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"5511999999999\",\n  \"message\": \"Olá, tudo bem?\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/notifications",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "notifications"]
+        }
+      }
+    },
+    {
+      "name": "Send Notification - Invalid Phone",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-Key",
+            "value": "sk_test_123456789"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"123\",\n  \"message\": \"Olá\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/notifications",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "notifications"]
+        }
+      }
+    },
+    {
+      "name": "Send Notification - Empty Message",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-Key",
+            "value": "sk_test_123456789"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"5511999999999\",\n  \"message\": \"\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/notifications",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "notifications"]
+        }
+      }
+    },
+    {
+      "name": "Send Notification - Invalid API Key",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-Key",
+            "value": "invalid_key"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"5511999999999\",\n  \"message\": \"Olá\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/notifications",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "notifications"]
+        }
+      }
+    },
+    {
+      "name": "Send Notification - With Correlation ID",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-Key",
+            "value": "sk_test_123456789"
+          },
+          {
+            "key": "X-Correlation-ID",
+            "value": "my-custom-correlation-id-123"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone\": \"5511999999999\",\n  \"message\": \"Teste com Correlation ID\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/notifications",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "notifications"]
+        }
+      }
+    }
+  ]
+}

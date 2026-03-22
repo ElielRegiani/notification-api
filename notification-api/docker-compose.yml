@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  notification-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      NOTIFICATION_API_KEY: ${NOTIFICATION_API_KEY:-sk_test_123456789}
+      NOTIFICATION_SERVICE_URL: ${NOTIFICATION_SERVICE_URL:-http://notification-service:8081}
+      NOTIFICATION_TIMEOUT_MS: ${NOTIFICATION_TIMEOUT_MS:-5000}
+      SERVER_PORT: 8080
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - whatsapp-platform
+
+  # Placeholder para notification-service (você complementa depois)
+  notification-service:
+    image: alpine:latest
+    command: /bin/sh -c "echo 'notification-service placeholder' && sleep infinity"
+    ports:
+      - "8081:8081"
+    networks:
+      - whatsapp-platform
+
+networks:
+  whatsapp-platform:
+    driver: bridge

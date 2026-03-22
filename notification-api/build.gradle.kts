@@ -23,6 +23,7 @@ extra["springCloudVersion"] = "2025.1.1"
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("tools.jackson.module:jackson-module-kotlin")
