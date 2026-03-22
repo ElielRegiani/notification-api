@@ -1,7 +1,7 @@
 package whatsapp_platform.notification_api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
+import org.springframework.boot.SpringApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
@@ -9,5 +9,5 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 class NotificationApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<NotificationApiApplication>(*args)
+    SpringApplication.run(NotificationApiApplication::class.java, *args)
 }

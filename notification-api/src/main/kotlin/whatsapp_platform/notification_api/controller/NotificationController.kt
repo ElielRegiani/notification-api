@@ -14,13 +14,14 @@ import whatsapp_platform.notification_api.exception.UnauthorizedException
 import whatsapp_platform.notification_api.logger.StructuredLogger
 import whatsapp_platform.notification_api.service.NotificationService
 import org.springframework.beans.factory.annotation.Value
+import kotlin.collections.*
 
 @RestController
 @RequestMapping("/notifications")
 class NotificationController(
     private val notificationService: NotificationService
 ) {
-    private val logger = StructuredLogger.getLogger(this::class.java)
+    private val logger = StructuredLogger.getLogger(NotificationController::class.java)
 
     @Value("\${notification.api.key}")
     private lateinit var validApiKey: String
@@ -30,18 +31,17 @@ class NotificationController(
         @Valid @RequestBody request: NotificationRequest,
         @RequestHeader(value = "X-API-Key", required = true) apiKey: String
     ): ResponseEntity<NotificationResponse> {
-        // Validate API Key
         if (apiKey != validApiKey) {
             logger.warn(
                 "invalid_api_key_attempt",
-                "provided_key_length" to apiKey.length
+                mapOf("provided_key_length" to apiKey.length)
             )
             throw UnauthorizedException()
         }
 
         logger.info(
             "notification_request_started",
-            "phone" to request.phone
+            mapOf("phone" to request.phone)
         )
 
         val response = notificationService.sendNotification(request)

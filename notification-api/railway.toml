@@ -1,0 +1,13 @@
+[build]
+builder = "dockerfile"
+
+[deploy]
+startCommand = "java -jar -XX:+UseG1GC -XX:MaxRAMPercentage=75 app.jar"
+healthcheckPath = "/api/v1/actuator/health"
+healthcheckTimeout = 5
+
+[[services]]
+name = "notification-api"
+buildCommand = "./gradlew clean build -x test"
+watchPatterns = ["src/**"]
+previewUrl = "https://${{ RAILWAY_ENVIRONMENT_NAME }}.up.railway.app/api/v1/actuator/health"

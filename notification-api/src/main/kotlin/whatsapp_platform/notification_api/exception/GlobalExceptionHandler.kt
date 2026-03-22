@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import whatsapp_platform.notification_api.dto.ErrorResponse
 import whatsapp_platform.notification_api.logger.StructuredLogger
+import kotlin.collections.*
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
-    private val logger = StructuredLogger.getLogger(this::class.java)
+    private val logger = StructuredLogger.getLogger(GlobalExceptionHandler::class.java)
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationException(
@@ -19,13 +20,15 @@ class GlobalExceptionHandler {
         request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val errors = ex.bindingResult.fieldErrors
-            .map { "${it.field}: ${it.defaultMessage}" }
+            .map { "${'$'}{it.field}: ${'$'}{it.defaultMessage}" }
             .joinToString(", ")
 
         logger.warn(
             "validation_error",
-            "errors" to errors,
-            "path" to request.getDescription(false)
+            mapOf(
+                "errors" to errors,
+                "path" to request.getDescription(false)
+            )
         )
 
         return ResponseEntity(
@@ -46,8 +49,10 @@ class GlobalExceptionHandler {
         logger.error(
             "notification_error",
             ex,
-            "code" to ex.code,
-            "path" to request.getDescription(false)
+            mapOf(
+                "code" to ex.code,
+                "path" to request.getDescription(false)
+            )
         )
 
         return ResponseEntity(
@@ -68,7 +73,9 @@ class GlobalExceptionHandler {
         logger.error(
             "internal_error",
             ex,
-            "path" to request.getDescription(false)
+            mapOf(
+                "path" to request.getDescription(false)
+            )
         )
 
         return ResponseEntity(
